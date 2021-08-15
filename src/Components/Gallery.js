@@ -1,12 +1,32 @@
 import React, {useState} from 'react'
 import './tab.css'
 import Menu from "./menu";
+import MenuItems from './MenuItems';
+import Category from './Category';
+
+// find unique category 
+// first step map() method
+// second step new Set()
+// third step make an Array
+// fourth step spread operator
+// create for all category
+
+const allCatValues = [...new Set(Menu.map((curElem) => { return curElem.category})), "all"]
+
+console.log(allCatValues);
 
 const Gallery = () => {
 
     const [items, setItems] = useState(Menu)
 
+    const [catItems, setCatItems] = useState(allCatValues)
+
     const filterItem = (categItem) => {
+
+        if(categItem === "all"){
+            setItems(Menu)
+            return
+        }
         const updatedItems = Menu.filter((curElem) => {
             return curElem.category === categItem;
         });
@@ -19,62 +39,11 @@ const Gallery = () => {
             <h1 className="mt-5 text-center main-heading">Order your fav food</h1>
             <hr />
 
-            <div className="menu-tab container">
-                <div className="menu-tab d-flex justify-content-around">
-                    <button className="btn btn-warning" onClick={() => filterItem('breakfast')}>Breakfast</button>
-                    <button className="btn btn-warning" onClick={() => filterItem('lunch')}>Lunch</button>
-                    <button className="btn btn-warning" onClick={() => filterItem('evening')}>Evening</button>
-                    <button className="btn btn-warning" onClick={() => filterItem('dinner')}>Dinner</button>
-                    <button className="btn btn-warning" onClick={() => setItems(Menu)}>All</button>
-                </div>
+            {/* Category Menu */}
+            <Category filterItem={filterItem} catItems={catItems}/>
 
-                <div className="menu-items container-fluid mt-5">
-                    <div className="row">
-                        <div className="col-11 mx-auto">
-                            <div className="row my-5">
-
-                                {
-                                    items.map((elem) => {
-                                        const { id, name, image, description, price } = elem;
-                                        return (
-
-                                            <div className="item1 col-12 col-md-6 col-lg-6 col-xl-4 my-5" key={id}>
-                                                <div className="row Item-inside">
-                                                    {/* for images */}
-                                                    <div className="col-12 col-md-12 col-lg-4 img-div">
-                                                        <img src={image} alt={name} className="img-fluid" />
-                                                    </div>
-
-                                                    {/* Munu description */}
-                                                    <div className="col-12 col-md-12 col-lg-8">
-                                                        <div className="main-title pt-4 pb-3">
-                                                            <h1>{name}</h1>
-                                                            <p>{description}</p>
-                                                        </div>
-
-                                                        <div className="menu-price-book">
-                                                            <div className="price-book-divide d-flex justify-content-between">
-                                                                <h2>Price: {price}</h2>
-                                                                <a href="#">
-                                                                    <button className="btn btn-primary">Order Now</button>
-                                                                </a>
-                                                            </div>
-                                                            {/* <p>Lorem ipsum dolor sit amet</p> */}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        )
-                                    })
-                                }
-
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {/* All items */}
+            <MenuItems items={items}/>
         </>
     )
 }
