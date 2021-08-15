@@ -34,9 +34,16 @@ const Gallery = () => {
         setItems(updatedItems);
     }
 
+    // disable
+    const disableSetCatItems = () => {
+        setCatItems()
+    }
+    console.log(disableSetCatItems);
+
     return (
         <>
             <h1 className="mt-5 text-center main-heading">Order your fav food</h1>
+            {/* <button disabled onClick={disableSetCatItems}>Home</button> */}
             <hr />
 
             {/* Category Menu */}
